@@ -66,15 +66,12 @@ jobs:
         with:
           repository: whoisbryan/GitOps
 
-      - name: 'Kustomize Build Backend'
-        uses: karancode/kustomize-github-action@master
-        with:
-          kustomize_version: ${{ steps.vars.outputs.sha_short }}
-          kustomize_build_dir: project-1/backend
-          kustomize_comment: true
-          kustomize_output_file: "project-1/backend/kustomization.yaml"
-          kustomize_build_options: "--load_restrictor none"
-          enable_alpha_plugins: true
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      - name: Checkout source code
+        uses: imranismail/setup-kustomize@v2
+      - run: |
+          cd project-1/backend
+          kustomize edit set image  brxvn/backend-devops-pj1:${{ steps.vars.outputs.sha_short }}
+          git add .
+          git commit -m "Set `brxvn/backend-devops-pj1` image tag to `${{ steps.vars.outputs.sha_short }}`"
+          git push
 
