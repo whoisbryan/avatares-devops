@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -54,7 +54,27 @@ jobs:
     needs: docker
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Echo dependencie job docker
-        run: echo Job Docker Success!
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Get Tag
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          repository: whoisbryan/GitOps
+
+      - name: 'Kustomize Build Backend'
+        uses: karancode/kustomize-github-action@master
+        with:
+          kustomize_version: ${{ steps.vars.outputs.sha_short }}
+          kustomize_build_dir: project-1/backend
+          kustomize_comment: true
+          kustomize_output_file: "project-1/backend/kustomization.yaml"
+          kustomize_build_options: "--load_restrictor none"
+          enable_alpha_plugins: true
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
