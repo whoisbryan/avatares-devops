@@ -32,16 +32,19 @@ part_mapping = {
 docker_blue = '#086DD7'
 tilt_green = '#20BA31'
 
+
 @app.before_first_request
 def initialize():
     try:
         pa.ClothingType.DOCKER_SHIRT
     except AttributeError:
-        pa.install_part(str(pathlib.Path(__file__).parent.joinpath('docker_shirt.svg')), pa.ClothingType)
+        pa.install_part(str(pathlib.Path(__file__).parent.joinpath(
+            'docker_shirt.svg')), pa.ClothingType)
     try:
         pa.ClothingType.TILT_SHIRT
     except AttributeError:
-        pa.install_part(str(pathlib.Path(__file__).parent.joinpath('tilt_shirt.svg')), pa.ClothingType)
+        pa.install_part(str(pathlib.Path(__file__).parent.joinpath(
+            'tilt_shirt.svg')), pa.ClothingType)
 
 
 @app.route('/api/avatar')
@@ -102,6 +105,10 @@ def avatar_spec():
     return flask.jsonify(resp)
 
 
+# @app.route('/ready')
+# def ready():
+#     return flask.Response('', status=204)
 @app.route('/ready')
 def ready():
-    return flask.Response('', status=204)
+    response_data = {"status": "OK"}
+    return flask.jsonify(response_data), 200
