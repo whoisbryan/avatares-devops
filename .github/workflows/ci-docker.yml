@@ -1,4 +1,4 @@
-name: ci
+name: ci-docker
 
 on:
   push:
@@ -24,10 +24,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Get Tag
+      - 
+        name: Get Tag
         id: vars
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-      - name: Check outputs
+      
+      - 
+        name: Check outputs
         run: echo ${{ steps.vars.outputs.sha_short }}
       -
         name: Build and push backend
@@ -35,7 +38,7 @@ jobs:
         with:
           context: api/
           push: true
-          tags: brxvn/backend:${{ steps.vars.outputs.sha_short }}
+          tags: brxvn/backend-devops-pj1:${{ steps.vars.outputs.sha_short }}
 
       -
         name: Build and push frontend
@@ -43,4 +46,4 @@ jobs:
         with:
           context: web/
           push: true
-          tags: brxvn/frontend:${{ steps.vars.outputs.sha_short }}
+          tags: brxvn/frontend-devops-pr1:${{ steps.vars.outputs.sha_short }}
