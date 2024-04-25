@@ -75,6 +75,6 @@ jobs:
           cd project-1/backend
           kustomize edit set image brxvn/backend-devops-pj1:${{ steps.vars.outputs.sha_short }}
           git add .
-          git commit -m "Set `brxvn/backend-devops-pj1` image tag to `${{ steps.vars.outputs.sha_short }}`"
+          git commit -m "Set brxvn/backend-devops-pj1 image tag to ${{ steps.vars.outputs.sha_short }}"
           git push
 
