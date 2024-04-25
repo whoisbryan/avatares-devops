@@ -21,8 +21,8 @@ jobs:
         # Password or personal access token used to log against the Docker registry
         password: # optional
 
-          
-    - uses: actions/checkout@v3
+    - name: Checkout source code 
+      uses: actions/checkout@v3
 
     - name: Build the backend Docker image
       run: docker build . --file api/Dockerfile --tag backend-devops-pj1:$(date +%s)
