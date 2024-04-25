@@ -1,7 +1,7 @@
 name: ci-docker
 
 on:
-  push:
+  pr:
     branches:
       - 'main'
 
@@ -47,3 +47,11 @@ jobs:
           context: web/
           push: true
           tags: brxvn/frontend-devops-pj1:${{ steps.vars.outputs.sha_short }}
+
+  kustomize:
+    needs: docker:
+    
+    -
+      name: Echo dependencie job docker
+      run: echo Job Docker Success!
+
