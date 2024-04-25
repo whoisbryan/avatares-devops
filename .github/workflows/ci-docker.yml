@@ -46,4 +46,4 @@ jobs:
         with:
           context: web/
           push: true
-          tags: brxvn/frontend-devops-pr1:${{ steps.vars.outputs.sha_short }}
+          tags: brxvn/frontend-devops-pj1:${{ steps.vars.outputs.sha_short }}
