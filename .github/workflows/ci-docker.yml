@@ -26,4 +26,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: brxvn/${{ github.event.repository.name }}:${GITHUB_SHA::7}
+          tags: ${GITHUB_SHA::7}
