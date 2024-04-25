@@ -26,4 +26,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: DOCKERHUB_USERNAME/${{ github.event.repository.name }}:${GITHUB_SHA::7}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${GITHUB_SHA::7}
