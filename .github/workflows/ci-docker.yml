@@ -61,7 +61,7 @@ jobs:
         id: vars
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Checkout source code
+      - name: Checkout GitOps Repo
         uses: actions/checkout@v4
         with:
           repository: whoisbryan/GitOps
@@ -70,7 +70,8 @@ jobs:
       - name: Checkout source code
         uses: imranismail/setup-kustomize@v2
       - run: |
-          cd /GitOps/project-1/backend
+          ls
+          cd ./GitOps/project-1/backend
           kustomize edit set image  brxvn/backend-devops-pj1:${{ steps.vars.outputs.sha_short }}
           git add .
           git commit -m "Set `brxvn/backend-devops-pj1` image tag to `${{ steps.vars.outputs.sha_short }}`"
