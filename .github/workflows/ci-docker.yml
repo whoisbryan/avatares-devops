@@ -51,9 +51,10 @@ jobs:
           tags: brxvn/frontend-devops-pj1:${{ steps.vars.outputs.sha_short }}
 
   kustomize:
-    needs: docker:
-    
-    -
-      name: Echo dependencie job docker
-      run: echo Job Docker Success!
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Echo dependencie job docker
+        run: echo Job Docker Success!
 
