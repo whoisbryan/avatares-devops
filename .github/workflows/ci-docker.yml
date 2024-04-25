@@ -1,10 +1,12 @@
 name: ci-docker
 
 on:
-  pr:
+  pull_request:
+    types:
+      - opened
+      - reopened
     branches:
       - 'main'
-
 jobs:
   docker:
     runs-on: ubuntu-latest
