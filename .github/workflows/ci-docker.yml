@@ -37,7 +37,7 @@ jobs:
         with:
           context: api/
           push: true
-          tags: brxvn/backend-devops-pj1:${{ steps.vars.outputs.sha_short }}
+          tags: brxvn/avatares-devops-pj1-backend:${{ steps.vars.outputs.sha_short }}
 
       -
         name: Build and push frontend
@@ -45,7 +45,7 @@ jobs:
         with:
           context: web/
           push: true
-          tags: brxvn/frontend-devops-pj1:${{ steps.vars.outputs.sha_short }}
+          tags: brxvn/avatares-devops-pj1-frontend:${{ steps.vars.outputs.sha_short }}
 
   kustomize:
     needs: docker
@@ -69,9 +69,11 @@ jobs:
       - run: |
           git config --global user.email "bgonzalez@occ.com.mx"
           git config --global user.name "whoisbryannn"
-          cd project-1/backend
-          kustomize edit set image brxvn/backend-devops-pj1:${{ steps.vars.outputs.sha_short }}
+          cd project-1/avatares-devops-backend
+          kustomize edit set image brxvn/avatares-devops-pj1-backend:${{ steps.vars.outputs.sha_short }}
+          cd project-1/avatares-devops-frontend
+          kustomize edit set image brxvn/avatares-devops-pj1-frontend:${{ steps.vars.outputs.sha_short }}
           git add .
-          git commit -m "Set brxvn/backend-devops-pj1 image tag to ${{ steps.vars.outputs.sha_short }}"
+          git commit -m "Set avatares-devops-pj1-backend and frontend image tag to ${{ steps.vars.outputs.sha_short }}"
           git push
 
