@@ -1,4 +1,4 @@
-name: avatares-devops-pj1-frontend-ci
+name: avatares-devops-pj1-backend-ci
 
 on:
   push:
