@@ -1,4 +1,4 @@
-name: web-deployment.yaml
+name: avatares-devops-pj1-frontend-ci
 
 on:
   push:
