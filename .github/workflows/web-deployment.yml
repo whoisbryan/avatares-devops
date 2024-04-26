@@ -1,9 +1,11 @@
-name: ci-docker
+name: web-deployment.yaml
 
 on:
   push:
     branches:
       - 'main'
+    paths:
+    - 'web/**'
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -31,13 +33,6 @@ jobs:
       - 
         name: Check outputs
         run: echo ${{ steps.vars.outputs.sha_short }}
-      -
-        name: Build and push backend
-        uses: docker/build-push-action@v5
-        with:
-          context: api/
-          push: true
-          tags: brxvn/avatares-devops-pj1-backend:${{ steps.vars.outputs.sha_short }}
 
       -
         name: Build and push frontend
@@ -69,13 +64,15 @@ jobs:
       - run: |
           git config --global user.email "bgonzalez@occ.com.mx"
           git config --global user.name "whoisbryannn"
-          cd project-1/avatares-devops-backend
-          kustomize edit set image brxvn/avatares-devops-pj1-backend:${{ steps.vars.outputs.sha_short }}
-          git add .
-          cd ..
-          cd avatares-devops-frontend
+          cd project-1/avatares-devops-frontend
           kustomize edit set image brxvn/avatares-devops-pj1-frontend:${{ steps.vars.outputs.sha_short }}
           git add .
-          git commit -m "Set avatares-devops-pj1-backend and frontend image tag to ${{ steps.vars.outputs.sha_short }}"
+          git commit -m "Set brxvn/avatares-devops-pj1-frontend image tag to ${{ steps.vars.outputs.sha_short }}"
           git push
-
+      
+      - name: Status Notify    
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+    
