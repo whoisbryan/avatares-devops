@@ -71,7 +71,8 @@ jobs:
           git config --global user.name "whoisbryannn"
           cd project-1/avatares-devops-backend
           kustomize edit set image brxvn/avatares-devops-pj1-backend:${{ steps.vars.outputs.sha_short }}
-          cd project-1/avatares-devops-frontend
+          cd ..
+          cd avatares-devops-frontend
           kustomize edit set image brxvn/avatares-devops-pj1-frontend:${{ steps.vars.outputs.sha_short }}
           git add .
           git commit -m "Set avatares-devops-pj1-backend and frontend image tag to ${{ steps.vars.outputs.sha_short }}"
