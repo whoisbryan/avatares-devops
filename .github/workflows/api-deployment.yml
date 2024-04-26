@@ -6,6 +6,7 @@ on:
       - 'main'
     paths:
     - 'api/**'
+    - '.github/workflows/**'
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -38,7 +39,7 @@ jobs:
         name: Build and push backend
         uses: docker/build-push-action@v5
         with:
-          context: web/
+          context: api/
           push: true
           tags: brxvn/avatares-devops-pj1-backend:${{ steps.vars.outputs.sha_short }}
 
