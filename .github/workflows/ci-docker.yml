@@ -4,13 +4,12 @@ on:
   push:
     branches:
       - 'main'
-
 jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -47,3 +46,32 @@ jobs:
           context: web/
           push: true
           tags: brxvn/frontend-devops-pj1:${{ steps.vars.outputs.sha_short }}
+
+  kustomize:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Get Tag
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Checkout GitOps Repo
+        uses: actions/checkout@v4
+        with:
+          repository: whoisbryan/GitOps
+          token: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Kustomize 
+        uses: imranismail/setup-kustomize@v2
+      - run: |
+          git config --global user.email "bgonzalez@occ.com.mx"
+          git config --global user.name "whoisbryannn"
+          cd project-1/backend
+          kustomize edit set image brxvn/backend-devops-pj1:${{ steps.vars.outputs.sha_short }}
+          git add .
+          git commit -m "Set brxvn/backend-devops-pj1 image tag to ${{ steps.vars.outputs.sha_short }}"
+          git push
+
