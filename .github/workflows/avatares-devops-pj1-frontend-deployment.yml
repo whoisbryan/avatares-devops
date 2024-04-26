@@ -7,7 +7,7 @@ on:
     paths:
     - 'web/**'
 jobs:
-  docker:
+  docker-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
@@ -43,7 +43,7 @@ jobs:
           tags: brxvn/avatares-devops-pj1-frontend:${{ steps.vars.outputs.sha_short }}
 
   kustomize:
-    needs: docker
+    needs: docker-build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
@@ -75,4 +75,6 @@ jobs:
         if: always()
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          title: "CI"
     
