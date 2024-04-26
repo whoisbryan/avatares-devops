@@ -14,7 +14,7 @@ export default defineConfig({
     },
     proxy: {
       '^/api': {
-        target: 'http://avatares-devops-pj1-backend-svc.cluster.local',
+        target: 'http://avatares-devops-pj1-backend-svc.bootcamp-prj-1.svc.cluster.local',
         changeOrigin: true
       }
     }
